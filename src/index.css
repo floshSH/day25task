@@ -1,0 +1,8 @@
+input{
+  border-radius: 10px;
+  padding: 5px;
+ 
+}
+.card-body{
+  max-width: 20vw;
+}
