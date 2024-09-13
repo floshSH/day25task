@@ -54,17 +54,21 @@ const App = () => {
   }
 
   const addTodos=()=>{
+  
     setTodo([...todo, addTodo]);
     setAddTodo({
       todoName:'',
       todoDescription:'',
       status:"Not Completed"
     })
+  
   }
 
-  const editFunc=(index,changeStatus)=>{
+  const editFunc=(index,changeStatus, task)=>{
     const newTodo=[...todo];
     newTodo[index].status=changeStatus;
+    newTodo[index].todoName=task.todoName;
+    newTodo[index].todoDescription=task.todoDescription;
     setTodo(newTodo);
   }
 
@@ -94,8 +98,8 @@ const App = () => {
       <MyContext.Provider value={{todo, setTodo}}>
     <div className='m-5'>
     <div className='d-flex flex-wrap justify-content-center  align-items-center'  >
-<div className='col'><input type="text" className='m-4' name="todoName" onChange={handleChange} placeholder='Todo Name' /></div>
-<div className='col'><input type="text" className='m-4' name="todoDescription" onChange={handleChange} placeholder='Todo Description'/></div>
+<div className='col'><input type="text" className='m-4' value={addTodo.todoName} name="todoName" onChange={handleChange} placeholder='Todo Name' /></div>
+<div className='col'><input type="text" className='m-4' value={addTodo.todoDescription} name="todoDescription" onChange={handleChange} placeholder='Todo Description'/></div>
 <div className='col'><button className='btn btn-primary m-4' type='submit' onClick={addTodos} >Add todo</button></div>
 </div>
 
@@ -103,7 +107,7 @@ const App = () => {
 <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4  ">
          
            {todo.map((value, index,todo)=>(
-             <div className=' col'>
+             <div className=' col' key={index}>
               <History  index={index} key={index} value={value} editFunc={editFunc} deleteFunc={deleteFunc}/>
               </div>
            ))}

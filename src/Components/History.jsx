@@ -4,6 +4,11 @@ import React, { useState } from 'react';
 
 const History = ({value,index,editFunc, deleteFunc}) => {
   const [click, setClick]=useState(false);
+  const [edit, setEdit]=useState(false);
+  const [task, setTask]=useState({
+    todoName:value.todoName,
+    todoDescription:value.todoDescription
+  })
   const [changeStatus,setChangeStatus]=useState("Not Completed");
  
   const toggelFunc=()=>{
@@ -17,15 +22,16 @@ const History = ({value,index,editFunc, deleteFunc}) => {
     <div>
          <div className="card mb-2 mt-2" id="cards">
       <div className="card-body">
-        <p >Name : {value.todoName}</p>
-        <p className='text-wrap-none '>Description : {value.todoDescription}</p>
+        <p >Name : {edit ? <input type="text" value={task.todoName} onChange={(e)=>setTask({...task, todoName:e.target.value})}/> : value.todoName}</p>
+        <p className='text-wrap-none '>Description : {edit ? <input type="text" value={task.todoDescription} onChange={(e)=>setTask({...task, todoDescription:e.target.value})}/> : value.todoDescription}</p>
    
         <div>
      <div className='d-flex  justify-content-evenly'>
     <div>Status :</div>
        <div>
        <div className="dropdown">
-  <button className={changeStatus === "Completed" ? "btn btn-success dropdown-toggle " : "btn btn-info dropdown-toggle "} onClick={()=> toggelFunc()}   type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+  <button className={changeStatus === "Completed" ? "btn btn-success dropdown-toggle " : "btn btn-info dropdown-toggle "} 
+  onClick={()=> toggelFunc()}   type="button" data-bs-toggle="dropdown" aria-expanded="false" >
     {changeStatus}
   </button>
  </div>
@@ -45,7 +51,7 @@ const History = ({value,index,editFunc, deleteFunc}) => {
 
 
 <div className='d-flex flex-wrap justify-content-end p-3'>
-  <div className='p-2'><button className='btn btn-warning ' onClick={()=>{editFunc(index,changeStatus);setClick(false)}}>Edit</button></div>
+  <div className='p-2'><button className='btn btn-warning ' onClick={()=>{editFunc(index,changeStatus, task);setClick(!click); setEdit(!edit)}}>Edit</button></div>
   <div className='p-2'><button className='btn btn-danger '  onClick={()=>deleteFunc(index)}>Delete</button></div>
 </div>
          </div>
